@@ -2,26 +2,21 @@ package main
 
 import (
 	"fmt"
-	"math/cmplx"
+	"math"
 )
 
-var (
-	// ToBe is just for test
-	ToBe bool = true
-	// MaxInt is Just for test
-	MaxInt uint64     = 1<<64 - 1
-	z      complex128 = cmplx.Sqrt(-5 + 12i)
-	i      int8       = 50
-)
-
-// Pi is pi number
-const Pi float32 = 3.14
+func pow(x, n, lim float64) float64 {
+	if v := math.Pow(x, n); v < lim {
+		return v
+	} else if v+lim > 100 {
+		return v + lim
+	}
+	return lim
+}
 
 func main() {
-	i := 20
-	if i == 20 {
-		fmt.Println("ok")
-	}
-
-	// fmt.Printf("%T\n", i)
+	fmt.Println(
+		pow(3, 2, 10),
+		pow(10, 2, 20),
+	)
 }
