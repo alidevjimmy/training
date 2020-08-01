@@ -1,27 +1,33 @@
 package main
 
 import (
-	"fmt"
-	"math/cmplx"
-)
+	"log"
 
-var (
-	// ToBe is just for test
-	ToBe bool = true
-	// MaxInt is Just for test
-	MaxInt uint64     = 1<<64 - 1
-	z      complex128 = cmplx.Sqrt(-5 + 12i)
-	i      int8       = 50
+	telegram "github.com/go-telegram-bot-api/telegram-bot-api"
 )
-
-// Pi is pi number
-const Pi float32 = 3.14
 
 func main() {
-	i := 20
-	if i == 20 {
-		fmt.Println("ok")
+	bot, err := telegram.NewBotAPI("957372446:AAFj_uWJwHgc_lMnX8ZBIfFqE5nccgrx1oQ")
+	if err != nil {
+		log.Fatal(err)
 	}
+	bot.Debug = true
+	log.Printf("Authorized on account %s\n", bot.Self.UserName)
 
-	// fmt.Printf("%T\n", i)
+	u := telegram.NewUpdate(0)
+	u.Timeout = 60
+
+	updates, _ := bot.GetUpdatesChan(u)
+
+	for update := range updates {
+		if update.Message == nil {
+			continue
+		}
+
+		log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+
+		msg := telegram.NewMessage(update.Message.Chat.ID, update.Message.Text)
+		msg.ReplyToMessageID = update.Message.MessageID
+		bot.Send(msg)
+	}
 }
