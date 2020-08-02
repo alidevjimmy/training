@@ -1,13 +1,18 @@
 package main
 
 import (
+	"io/ioutil"
 	"log"
+	"os"
+	"strings"
 
 	telegram "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
 func main() {
-	bot, err := telegram.NewBotAPI("957372446:AAFj_uWJwHgc_lMnX8ZBIfFqE5nccgrx1oQ")
+	file, _ := os.Open(".env")
+	token, _ := ioutil.ReadAll(file)
+	bot, err := telegram.NewBotAPI(strings.TrimSpace(string(token)))
 	if err != nil {
 		log.Fatal(err)
 	}
