@@ -14,7 +14,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 
 #ENTRYPOINT ["./training"]
-FROM scratch
+FROM alpine
 
 COPY --from=builder /training/ /app/
 
